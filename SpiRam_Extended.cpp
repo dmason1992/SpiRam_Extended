@@ -130,9 +130,12 @@ char SpiRAM::write_byte(long address, char data_byte)
 // Int transfer functions
 int SpiRAM::write_int(long address, int data_int)
 {
+  signed char outBytes[2];
+  outBytes[0] = (data_int >> 8);
+  outBytes[1] = (data_int);
   _prepare(STREAM_MODE,WRITE,address);
-  SPI.transfer(data_int/256);
-  SPI.transfer(data_int%256);
+  SPI.transfer(outBytes[0]);
+  SPI.transfer(outBytes[1]);
   disable();
 
   return data_int;
@@ -141,10 +144,12 @@ int SpiRAM::write_int(long address, int data_int)
 int SpiRAM::read_int(long address)
 {
   int read_int;
-
+  signed char inBytes[2];
   _prepare(STREAM_MODE,READ,address);
-  read_int = SPI.transfer(0xFF)*256+SPI.transfer(0xFF);
+  inBytes[0] = SPI.transfer(0xFF);
+  inBytes[1] = SPI.transfer(0xFF);
   disable();
+  read_int = (inBytes[0] << 8)|(inBytes[1]);
 
   return read_int;
 }
@@ -152,10 +157,13 @@ int SpiRAM::read_int(long address)
 void SpiRAM::write_ints(long address,int *data_int,long length)
 {
   long i;
+  signed char outBytes[2];
   _prepare(STREAM_MODE,WRITE,address);
   for (i=0;i<length;i++){
-    SPI.transfer(data_int[i]/256);
-    SPI.transfer(data_int[i]%256);
+    outBytes[0] = (data_int[i] >> 8);
+    outBytes[1] = (data_int[i]);
+    SPI.transfer(outBytes[0]);
+    SPI.transfer(outBytes[1]);
   }
   disable();
 }
@@ -163,10 +171,12 @@ void SpiRAM::write_ints(long address,int *data_int,long length)
 void SpiRAM::read_ints(long address,int *data_int, long length)
 {
   long i;
-
+  signed char inBytes[2];
   _prepare(STREAM_MODE,READ,address);
   for (i=0;i<length;i++){
-    data_int[i] = SPI.transfer(0xFF)*256+SPI.transfer(0xFF);
+    inBytes[0] = SPI.transfer(0xFF);
+    inBytes[1] = SPI.transfer(0xFF);
+    data_int[i] = (inBytes[0] << 8)|(inBytes[1]);
   }
   disable();
 
