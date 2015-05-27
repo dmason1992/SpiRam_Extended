@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring Map SpiRAM
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SpiRAM	KEYWORD1
+SpiRam_Extended KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+enable	KEYWORD2
+disable	KEYWORD2
+read_byte	KEYWORD2
+write_byte	KEYWORD2
+read_page	KEYWORD2
+write_page	KEYWORD2
+read_stream	KEYWORD2
+write_stream	KEYWORD2
+read_int	KEYWORD2
+write_int	KEYWORD2
+read_ints	KEYWORD2
+write_ints	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+RDSR	LITERAL1
+WRSR	LITERAL1
+READ	LITERAL1
+WRITE	LITERAL1
+HOLD	LITERAL1
+BYTE_MODE	LITERAL1
+PAGE_MODE	LITERAL1
+STREAM_MODE	LITERAL1
