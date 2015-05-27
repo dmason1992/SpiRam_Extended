@@ -3,7 +3,7 @@
 // Share and enjoy!
 
 #include <SPI.h>
-#include <SpiRAM.h>
+#include <SpiRam_Extended.h>
 
 // SCK (pin13)->chip6  (ISPpin3)
 // MISO(pin12)->chip2  (ISPpin1)
