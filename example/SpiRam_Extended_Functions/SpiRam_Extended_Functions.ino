@@ -24,25 +24,55 @@
 //byte clock = 0-6 to set SPI speed by SPI_CLOCK_DIVxx;
 // 0=DIV4; 1=DIV16; 2=DIV64; 3=DIV128; 4=DIV2; 5=DIV8; 6=DIV32; 7=broken
 // div2 is the fastest
-SpiRAM SpiRam(SPI_CLOCK_DIV2, SS_PIN, CHIP_23LC1024);
+SpiRAM SpiRam(SPI_CLOCK_DIV8, SS_PIN, CHIP_23LC1024);
 
 void setup()   {                
   Serial.begin(115200);
 }
 
 void loop(){
-  read_write_int_example();
+  read_write_int_example(-53);
+  delay(1000);
+  read_write_long_example(-9332);
   delay(1000);
   read_write_int_array_example();
   delay(1000);
+  read_write_float_example(-3.14);
+  delay(1000);
 }
 
-void read_write_int_example(){
+void read_write_int_example(int number){
   Serial.println("Writing and reading int");
-  SpiRam.write_int(0,923);
+  SpiRam.write_int(0,number);
   delay(10);
   int readData = SpiRam.read_int(0);
-  if (readData != 923){
+  if (readData != number){
+    Serial.println("Data validation issue - write or read failed!\n");
+  }
+  else {
+    Serial.println("Write and Read Successful\n");
+  }
+}
+
+void read_write_long_example(long number){
+  Serial.println("Writing and reading long");
+  SpiRam.write_long(0,number);
+  delay(10);
+  long readData = SpiRam.read_long(0);
+  if (readData != number){
+    Serial.println("Data validation issue - write or read failed!\n");
+  }
+  else {
+    Serial.println("Write and Read Successful\n");
+  }
+}
+
+void read_write_float_example(float number){
+  Serial.println("Writing and reading float");
+  SpiRam.write_float(0,number);
+  delay(10);
+  float readData = SpiRam.read_float(0);
+  if (readData != number){
     Serial.println("Data validation issue - write or read failed!\n");
   }
   else {
@@ -52,15 +82,15 @@ void read_write_int_example(){
 
 void read_write_int_array_example(){
   Serial.println("Writing and reading int array");
-  int bigArray[512];
-  for (int i=0;i<512;i++){
+  int bigArray[20];
+  for (int i=0;i<20;i++){
     bigArray[i] = i;
   }
-  SpiRam.write_ints(0,bigArray,512);
-  int newArray[512];
-  SpiRam.read_ints(0,newArray,512);
+  SpiRam.write_ints(0,bigArray,20);
+  int newArray[20];
+  SpiRam.read_ints(0,newArray,20);
   boolean validation = true;
-  for (int i=0;i<512;i++){
+  for (int i=0;i<20;i++){
     if (newArray[i] != bigArray[i]){
       validation = false;
       break;
