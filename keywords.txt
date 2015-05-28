@@ -22,6 +22,11 @@ read_stream	KEYWORD2
 write_stream	KEYWORD2
 read_int	KEYWORD2
 write_int	KEYWORD2
+read_long	KEYWORD2
+write_long	KEYWORD2
+read_float	KEYWORD2
+write_float	KEYWORD2
+
 read_ints	KEYWORD2
 write_ints	KEYWORD2
 
