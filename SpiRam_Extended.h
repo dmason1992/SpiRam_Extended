@@ -63,6 +63,13 @@
 #define CHIP_23LC1024 1024
 #define CHIP_23LCV1024 1024
 
+typedef union {
+    float floatNum;
+    long longNum;
+    int intNum;
+    byte b [sizeof(long)];
+  } myUnion;
+
 class SpiRAM
 {
   public:
@@ -79,6 +86,10 @@ class SpiRAM
     void stream_run(char data_byte,long index); //if used, MUST be part of main program
     int read_int(long address);
     int write_int(long address, int data_int);
+    long read_long(long address);
+    long write_long(long address, long data_int);
+    float read_float(long address);
+    float write_float(long address, float data_int);
     void read_ints(long address,int *data_int, long length);
     void write_ints(long address,int *data_int, long length);
 
@@ -86,6 +97,7 @@ class SpiRAM
     char _current_mode;
     byte _ssPin;
     int  _chiptype;
+    myUnion dataUnion;
     void _prepare(char mode, char action, long address);
     void _set_mode(char mode);
 };
