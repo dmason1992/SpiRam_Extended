@@ -35,9 +35,13 @@ void loop(){
   delay(1000);
   read_write_long_example(-9332);
   delay(1000);
+  read_write_float_example(-3.14);
+  delay(1000);
   read_write_int_array_example();
   delay(1000);
-  read_write_float_example(-3.14);
+  read_write_long_array_example();
+  delay(1000);
+  read_write_float_array_example();
   delay(1000);
 }
 
@@ -89,6 +93,56 @@ void read_write_int_array_example(){
   SpiRam.write_ints(0,bigArray,20);
   int newArray[20];
   SpiRam.read_ints(0,newArray,20);
+  boolean validation = true;
+  for (int i=0;i<20;i++){
+    if (newArray[i] != bigArray[i]){
+      validation = false;
+      break;
+    }
+  }
+  if (validation){
+    Serial.println("Write and Read Successful\n");
+  }
+  else{
+    Serial.println("Data validation issue - write or read failed!\n");
+  }
+  
+}
+
+void read_write_long_array_example(){
+  Serial.println("Writing and reading long array");
+  long bigArray[20];
+  for (int i=0;i<20;i++){
+    bigArray[i] = i;
+  }
+  SpiRam.write_longs(0,bigArray,20);
+  long newArray[20];
+  SpiRam.read_longs(0,newArray,20);
+  boolean validation = true;
+  for (int i=0;i<20;i++){
+    if (newArray[i] != bigArray[i]){
+      validation = false;
+      break;
+    }
+  }
+  if (validation){
+    Serial.println("Write and Read Successful\n");
+  }
+  else{
+    Serial.println("Data validation issue - write or read failed!\n");
+  }
+  
+}
+
+void read_write_float_array_example(){
+  Serial.println("Writing and reading float array");
+  float bigArray[20];
+  for (int i=0;i<20;i++){
+    bigArray[i] = i/2.;
+  }
+  SpiRam.write_floats(0,bigArray,20);
+  float newArray[20];
+  SpiRam.read_floats(0,newArray,20);
   boolean validation = true;
   for (int i=0;i<20;i++){
     if (newArray[i] != bigArray[i]){
