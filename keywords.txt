@@ -29,6 +29,10 @@ write_float	KEYWORD2
 
 read_ints	KEYWORD2
 write_ints	KEYWORD2
+read_longs  KEYWORD2
+write_longs KEYWORD2
+read_floats KEYWORD2
+write_floats    KEYWORD2
 
 
 #######################################
