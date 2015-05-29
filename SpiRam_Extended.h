@@ -92,6 +92,11 @@ class SpiRAM
     float write_float(long address, float data_int);
     void read_ints(long address,int *data_int, long length);
     void write_ints(long address,int *data_int, long length);
+    void read_longs(long address,long *data_long, long length);
+    void write_longs(long address,long *data_long, long length);
+    void read_floats(long address,float *data_long, long length);
+    void write_floats(long address,float *data_long, long length);
+
 
   private:
     char _current_mode;
