@@ -149,6 +149,31 @@ int SpiRAM::read_int(long address)
 
 }
 
+void SpiRAM::write_ints(long address,int *data_int,long length)
+{
+  long i;
+  _prepare(STREAM_MODE,WRITE,address);
+  for (i=0;i<length;i++){
+    dataUnion.intNum = data_int[i];
+    SPI.transfer(dataUnion.b[0]);
+    SPI.transfer(dataUnion.b[1]);
+  }
+  disable();
+}
+
+void SpiRAM::read_ints(long address,int *data_int, long length)
+{
+  long i;
+  _prepare(STREAM_MODE,READ,address);
+  for (i=0;i<length;i++){
+    dataUnion.b[0] = SPI.transfer(0xFF);
+    dataUnion.b[1] = SPI.transfer(0xFF);
+    data_int[i] = dataUnion.intNum;
+  }
+  disable();
+
+}
+
 ///////////////////////////
 // long transfer functions
 long SpiRAM::write_long(long address, long data_long)
@@ -173,6 +198,35 @@ long SpiRAM::read_long(long address)
   dataUnion.b[3] = SPI.transfer(0xFF);
   disable();
   return dataUnion.longNum;
+
+}
+
+void SpiRAM::write_longs(long address,long *data_long,long length)
+{
+  long i;
+  _prepare(STREAM_MODE,WRITE,address);
+  for (i=0;i<length;i++){
+    dataUnion.longNum = data_long[i];
+    SPI.transfer(dataUnion.b[0]);
+    SPI.transfer(dataUnion.b[1]);
+    SPI.transfer(dataUnion.b[2]);
+    SPI.transfer(dataUnion.b[3]);
+  }
+  disable();
+}
+
+void SpiRAM::read_longs(long address,long *data_long, long length)
+{
+  long i;
+  _prepare(STREAM_MODE,READ,address);
+  for (i=0;i<length;i++){
+    dataUnion.b[0] = SPI.transfer(0xFF);
+    dataUnion.b[1] = SPI.transfer(0xFF);
+    dataUnion.b[2] = SPI.transfer(0xFF);
+    dataUnion.b[3] = SPI.transfer(0xFF);
+    data_long[i] = dataUnion.longNum;
+  }
+  disable();
 
 }
 
@@ -203,29 +257,30 @@ float SpiRAM::read_float(long address)
 
 }
 
-void SpiRAM::write_ints(long address,int *data_int,long length)
+void SpiRAM::write_floats(long address,float *data_float,long length)
 {
   long i;
-  signed char outBytes[2];
   _prepare(STREAM_MODE,WRITE,address);
   for (i=0;i<length;i++){
-    outBytes[0] = (data_int[i] >> 8);
-    outBytes[1] = (data_int[i]);
-    SPI.transfer(outBytes[0]);
-    SPI.transfer(outBytes[1]);
+    dataUnion.floatNum = data_float[i];
+    SPI.transfer(dataUnion.b[0]);
+    SPI.transfer(dataUnion.b[1]);
+    SPI.transfer(dataUnion.b[2]);
+    SPI.transfer(dataUnion.b[3]);
   }
   disable();
 }
 
-void SpiRAM::read_ints(long address,int *data_int, long length)
+void SpiRAM::read_floats(long address,float *data_float, long length)
 {
   long i;
-  signed char inBytes[2];
   _prepare(STREAM_MODE,READ,address);
   for (i=0;i<length;i++){
-    inBytes[0] = SPI.transfer(0xFF);
-    inBytes[1] = SPI.transfer(0xFF);
-    data_int[i] = (inBytes[0] << 8)|(inBytes[1]);
+    dataUnion.b[0] = SPI.transfer(0xFF);
+    dataUnion.b[1] = SPI.transfer(0xFF);
+    dataUnion.b[2] = SPI.transfer(0xFF);
+    dataUnion.b[3] = SPI.transfer(0xFF);
+    data_float[i] = dataUnion.floatNum;
   }
   disable();
 
