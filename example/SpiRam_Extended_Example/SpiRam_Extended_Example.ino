@@ -15,13 +15,14 @@ void loop()
   char data_to_chip[17] = "Testing 90123456";
   char data_from_chip[17] = "                ";
   int i = 0;
+  long address = 0;
 
   // Write some data to RAM
-  SpiRam.write_stream(SPI_CLOCK_DIV4, data_to_chip, 16);
+  SpiRam.write_stream(address, data_to_chip, 16);
   delay(100);
 
   // Read it back to a different buffer
-  SpiRam.read_stream(SPI_CLOCK_DIV4, data_from_chip, 16);
+  SpiRam.read_stream(address, data_from_chip, 16);
 
   // Write it to the serial port
   for (i = 0; i < 16; i++) {
